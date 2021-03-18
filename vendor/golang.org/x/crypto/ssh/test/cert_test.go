@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd
 // +build aix darwin dragonfly freebsd linux netbsd openbsd
 
 package test
@@ -11,7 +12,7 @@ import (
 	"crypto/rand"
 	"testing"
 
-	"github.com/Geo25rey/crypto/ssh"
+	"golang.org/x/crypto/ssh"
 )
 
 // Test both logging in with a cert, and also that the certificate presented by an OpenSSH host can be validated correctly

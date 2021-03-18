@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Geo25rey/crypto/cryptobyte/asn1"
+	"golang.org/x/crypto/cryptobyte/asn1"
 )
 
 type readASN1Test struct {

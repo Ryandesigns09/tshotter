@@ -2,14 +2,15 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !gccgo,!purego
+//go:build gc && !purego
+// +build gc,!purego
 
 package chacha20poly1305
 
 import (
 	"encoding/binary"
 
-	"github.com/Geo25rey/crypto/internal/subtle"
+	"golang.org/x/crypto/internal/subtle"
 	"golang.org/x/sys/cpu"
 )
 

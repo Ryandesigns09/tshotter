@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Geo25rey/crypto/openpgp/armor"
-	"github.com/Geo25rey/crypto/openpgp/errors"
-	"github.com/Geo25rey/crypto/openpgp/packet"
-	"github.com/Geo25rey/crypto/openpgp/s2k"
+	"golang.org/x/crypto/openpgp/armor"
+	"golang.org/x/crypto/openpgp/errors"
+	"golang.org/x/crypto/openpgp/packet"
+	"golang.org/x/crypto/openpgp/s2k"
 )
 
 // DetachSign signs message with the private key from signer (which must
@@ -204,7 +204,7 @@ func writeAndSign(payload io.WriteCloser, candidateHashes []uint8, signed *Entit
 	}
 
 	if hash == 0 {
-		hashId := candidateHashes[len(candidateHashes)-1]
+		hashId := candidateHashes[0]
 		name, ok := s2k.HashIdToString(hashId)
 		if !ok {
 			name = "#" + strconv.Itoa(int(hashId))
@@ -276,6 +276,11 @@ func Encrypt(ciphertext io.Writer, to []*Entity, signed *Entity, hints *FileHint
 		hashToHashId(crypto.SHA1),
 		hashToHashId(crypto.RIPEMD160),
 	}
+	// In the event that a recipient doesn't specify any supported ciphers
+	// or hash functions, these are the ones that we assume that every
+	// implementation supports.
+	defaultCiphers := candidateCiphers[len(candidateCiphers)-1:]
+	defaultHashes := candidateHashes[len(candidateHashes)-1:]
 
 	encryptKeys := make([]Key, len(to))
 	for i := range to {
@@ -289,11 +294,11 @@ func Encrypt(ciphertext io.Writer, to []*Entity, signed *Entity, hints *FileHint
 
 		preferredSymmetric := sig.PreferredSymmetric
 		if len(preferredSymmetric) == 0 {
-			preferredSymmetric = candidateCiphers
+			preferredSymmetric = defaultCiphers
 		}
 		preferredHashes := sig.PreferredHash
 		if len(preferredHashes) == 0 {
-			preferredHashes = candidateHashes
+			preferredHashes = defaultHashes
 		}
 		candidateCiphers = intersectPreferences(candidateCiphers, preferredSymmetric)
 		candidateHashes = intersectPreferences(candidateHashes, preferredHashes)
@@ -303,7 +308,7 @@ func Encrypt(ciphertext io.Writer, to []*Entity, signed *Entity, hints *FileHint
 		return nil, errors.InvalidArgumentError("cannot encrypt because recipient set shares no common algorithms")
 	}
 
-	cipher := packet.CipherFunction(candidateCiphers[len(candidateCiphers)-1])
+	cipher := packet.CipherFunction(candidateCiphers[0])
 	// If the cipher specified by config is a candidate, we'll use that.
 	configuredCipher := config.Cipher()
 	for _, c := range candidateCiphers {

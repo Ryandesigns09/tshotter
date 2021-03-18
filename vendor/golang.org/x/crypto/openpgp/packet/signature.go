@@ -17,8 +17,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Geo25rey/crypto/openpgp/errors"
-	"github.com/Geo25rey/crypto/openpgp/s2k"
+	"golang.org/x/crypto/openpgp/errors"
+	"golang.org/x/crypto/openpgp/s2k"
 )
 
 const (
@@ -109,8 +109,6 @@ func (sig *Signature) parse(r io.Reader) (err error) {
 	if !ok {
 		return errors.UnsupportedError("hash function " + strconv.Itoa(int(buf[2])))
 	}
-
-	sig.PreferredHash = append(sig.PreferredHash, buf[2])
 
 	hashedSubpacketsLength := int(buf[3])<<8 | int(buf[4])
 	l := 6 + hashedSubpacketsLength

@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build !go1.15
 // +build !go1.15
 
 // ecdsa.VerifyASN1 was added in Go 1.15.
@@ -12,8 +13,8 @@ import (
 	"crypto/ecdsa"
 	"math/big"
 
-	"github.com/Geo25rey/crypto/cryptobyte"
-	"github.com/Geo25rey/crypto/cryptobyte/asn1"
+	"golang.org/x/crypto/cryptobyte"
+	"golang.org/x/crypto/cryptobyte/asn1"
 )
 
 func verifyASN1(pub *ecdsa.PublicKey, hash, sig []byte) bool {

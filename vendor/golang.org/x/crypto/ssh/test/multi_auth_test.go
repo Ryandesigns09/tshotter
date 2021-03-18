@@ -14,6 +14,7 @@
 // not exist these tests will be skipped. See compile instructions
 // (for linux) in file ./sshd_test_pw.c.
 
+//go:build linux
 // +build linux
 
 package test
@@ -23,7 +24,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Geo25rey/crypto/ssh"
+	"golang.org/x/crypto/ssh"
 )
 
 // test cases

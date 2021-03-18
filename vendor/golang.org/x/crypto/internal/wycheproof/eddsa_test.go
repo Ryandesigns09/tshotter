@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build go1.13
 // +build go1.13
 
 package wycheproof
@@ -9,7 +10,7 @@ package wycheproof
 import (
 	"testing"
 
-	"github.com/Geo25rey/crypto/ed25519"
+	"golang.org/x/crypto/ed25519"
 )
 
 func TestEddsa(t *testing.T) {

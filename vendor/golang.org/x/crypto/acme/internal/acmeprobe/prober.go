@@ -45,7 +45,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Geo25rey/crypto/acme"
+	"golang.org/x/crypto/acme"
 )
 
 var (
