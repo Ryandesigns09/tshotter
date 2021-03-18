@@ -1,4 +1,4 @@
-module github.com/Ryandesigns09/discord-topshot
+module github.com/Ryandesigns09/tshotter
 
 go 1.23
 
